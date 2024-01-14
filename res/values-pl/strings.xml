@@ -50,12 +50,12 @@
     <string name="no">Nie</string>
     <string name="yes">Tak</string>
     <string name="emergency_call">Połączenie alarmowe</string>
-    <string name="setup_services">Funkcje VoltageOS</string>
-    <string name="services_explanation" product="tablet">Te usługi są uruchomione w celu rozszerzenia możliwości twojego tabletu. Dane będą używane zgodnie z <xliff:g id="name" example="Privacy Policy">%s</xliff:g> VoltageOS.</string>
-    <string name="services_explanation" product="default">Te usługi są uruchomione w celu rozszerzenia możliwości twojego telefonu. Dane będą używane zgodnie z <xliff:g id="name" example="Privacy Policy">%s</xliff:g> VoltageOS.</string>
+    <string name="setup_services">Funkcje EtherealOS</string>
+    <string name="services_explanation" product="tablet">Te usługi są uruchomione w celu rozszerzenia możliwości twojego tabletu. Dane będą używane zgodnie z <xliff:g id="name" example="Privacy Policy">%s</xliff:g> EtherealOS.</string>
+    <string name="services_explanation" product="default">Te usługi są uruchomione w celu rozszerzenia możliwości twojego telefonu. Dane będą używane zgodnie z <xliff:g id="name" example="Privacy Policy">%s</xliff:g> EtherealOS.</string>
     <string name="services_privacy_policy">Polityka Prywatności</string>
-    <string name="services_help_improve_cm">Pomóż ulepszyć <xliff:g id="name" example="VoltageOS">%s</xliff:g></string>
-    <string name="services_metrics_label"><xliff:g id="name" example="Pomóż ulepszyć LineageOS">%1$s</xliff:g> zezwalając na automatyczne przesyłanie danych diagnostycznych oraz użytkowania do VoltageOS. Te informacje nie będą mogły zostać użyte do identyfikacji i stanowią pomoc dla zespołów pracujących nad czasem pracy baterii, wydajnością aplikacji oraz nowymi <xliff:g id="name" example="VoltageOS">%2$s</xliff:g> funkcjami.</string>
+    <string name="services_help_improve_cm">Pomóż ulepszyć <xliff:g id="name" example="EtherealOS">%s</xliff:g></string>
+    <string name="services_metrics_label"><xliff:g id="name" example="Pomóż ulepszyć LineageOS">%1$s</xliff:g> zezwalając na automatyczne przesyłanie danych diagnostycznych oraz użytkowania do EtherealOS. Te informacje nie będą mogły zostać użyte do identyfikacji i stanowią pomoc dla zespołów pracujących nad czasem pracy baterii, wydajnością aplikacji oraz nowymi <xliff:g id="name" example="EtherealOS">%2$s</xliff:g> funkcjami.</string>
     <string name="services_os_nav_keys_label"><b>Użyj ekranowych przycisków nawigacyjnych</b> zamiast klawiszy sprzętowych.</string>
     <string name="setup_unlock">Odblokuj</string>
     <string name="setup_device_locked">To urządzenie zostało zablokowane przez użytkownika.</string>
