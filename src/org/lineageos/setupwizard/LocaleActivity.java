@@ -6,8 +6,6 @@
 
 package org.lineageos.setupwizard;
 
-import static androidx.appcompat.app.AppCompatDelegate.setApplicationLocales;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,12 +17,11 @@ import android.os.Looper;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Toast;
-
-import androidx.core.os.LocaleListCompat;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.util.LocaleUtils;
@@ -40,6 +37,8 @@ import java.util.concurrent.Executors;
 
 public class LocaleActivity extends BaseSetupWizardActivity {
 
+    private static final String TAG = LocaleActivity.class.getSimpleName();
+
     private ArrayAdapter<com.android.internal.app.LocalePicker.LocaleInfo> mLocaleAdapter;
     private Locale mCurrentLocale;
     private int[] mAdapterIndices;
@@ -53,7 +52,7 @@ public class LocaleActivity extends BaseSetupWizardActivity {
         public void run() {
             if (mCurrentLocale != null) {
                 mLanguagePicker.setEnabled(false);
-                setApplicationLocales(LocaleListCompat.create(mCurrentLocale));
+                com.android.internal.app.LocalePicker.updateLocale(mCurrentLocale);
             }
         }
     };
@@ -177,7 +176,7 @@ public class LocaleActivity extends BaseSetupWizardActivity {
         }
         mFetchUpdateSimLocaleTask = Executors.newSingleThreadExecutor();
         mFetchUpdateSimLocaleTask.execute(() -> {
-            Locale locale;
+            Locale locale = null;
             Activity activity = LocaleActivity.this;
             if (!activity.isFinishing() || !activity.isDestroyed()) {
                 // If the sim is currently pin locked, return
@@ -198,8 +197,17 @@ public class LocaleActivity extends BaseSetupWizardActivity {
                 }
 
                 // Fetch locale for active sim's MCC
-                int mcc = Integer.parseInt(activeSubs.get(0).getMccString());
-                locale = LocaleUtils.getLocaleFromMcc(activity, mcc, null);
+                final String mccString = activeSubs.get(0).getMccString();
+                try {
+                    if (mccString != null && !mccString.isEmpty()) {
+                        int mcc = Integer.parseInt(mccString);
+                        locale = LocaleUtils.getLocaleFromMcc(activity, mcc, null);
+                    } else {
+                        Log.w(TAG, "Unexpected mccString: '" + mccString + "'");
+                    }
+                } catch (NumberFormatException e) {
+                    Log.w(TAG, "mccString not a number: '" + mccString + "'", e);
+                }
 
                 // If that fails, fall back to preferred languages reported
                 // by the sim
