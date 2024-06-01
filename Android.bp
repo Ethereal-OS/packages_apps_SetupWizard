@@ -1,11 +1,11 @@
 //
 // SPDX-FileCopyrightText: 2021-2024 The LineageOS Project
-// SPDX-FileCopyrightText: 2022-2024 The LeafOS Project
+// SPDX-FileCopyrightText: 2022-2024 The VoltageOS Project
 // SPDX-License-Identifier: Apache-2.0
 //
 
 android_app {
-    name: "LeafSetupWizard",
+    name: "VoltageSetupWizard",
 
     srcs: ["src/**/*.java"],
 
