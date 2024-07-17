@@ -47,7 +47,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import org.lineageos.setupwizard.BaseSetupWizardActivity;
-import org.lineageos.setupwizard.BluetoothSetupActivity;
 import org.lineageos.setupwizard.SetupWizardApp;
 
 import java.io.File;
@@ -224,9 +223,7 @@ public class SetupWizardUtils {
     }
 
     public static void disableComponentsForMissingFeatures(Context context) {
-        if (!hasLeanback(context) || isBluetoothDisabled()) {
-            disableComponent(context, BluetoothSetupActivity.class);
-        }
+
     }
 
     /**
