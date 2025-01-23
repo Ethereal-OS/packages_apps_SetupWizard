@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022-2024 The LineageOS Project
- * SPDX-FileCopyrightText: 2022-2024 The VoltageOS Project
+ * SPDX-FileCopyrightText: 2023-2024 The EtherealOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
