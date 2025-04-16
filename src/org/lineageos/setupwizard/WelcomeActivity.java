@@ -17,12 +17,16 @@ import android.widget.TextView;
 import com.google.android.setupcompat.template.FooterButtonStyleUtils;
 import com.google.android.setupcompat.util.SystemBarHelper;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import org.lineageos.setupwizard.util.SetupWizardUtils;
 
 public class WelcomeActivity extends SubBaseActivity {
 
     private static final String ACTION_ACCESSIBILITY_SETTINGS =
             "android.settings.ACCESSIBILITY_SETTINGS_FOR_SUW";
+            
+    private LottieAnimationView lottieAnimationView;
 
     @Override
     protected void onStartSubactivity() {
@@ -34,12 +38,21 @@ public class WelcomeActivity extends SubBaseActivity {
         onSetupStart();
         SystemBarHelper.setBackButtonVisible(getWindow(), false);
         setNextText(R.string.start);
+
+        // Set up Lottie Animation Background
+        lottieAnimationView = findViewById(R.id.setup_background);
+        lottieAnimationView.playAnimation();
+        
+        // Set up brand animation
+        LottieAnimationView animationView = findViewById(R.id.brand_logo);
+	animationView.setAnimation(R.raw.logo);
+	animationView.playAnimation();
+
         Button startButton = findViewById(R.id.start);
         Button emergButton = findViewById(R.id.emerg_dialer);
         startButton.setOnClickListener(view -> onNextPressed());
         findViewById(R.id.launch_accessibility)
-                .setOnClickListener(
-                        view -> startSubactivity(new Intent(ACTION_ACCESSIBILITY_SETTINGS)));
+                .setOnClickListener(view -> startSubactivity(new Intent(ACTION_ACCESSIBILITY_SETTINGS)));
 
         FooterButtonStyleUtils.applyPrimaryButtonPartnerResource(this, startButton, true);
 

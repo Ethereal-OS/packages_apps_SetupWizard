@@ -14,12 +14,13 @@
     android:fitsSystemWindows="true"
     app:insetForeground="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/background"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
-        android:visibility="visible"/>
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/setup_background" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
@@ -28,16 +29,17 @@
         android:orientation="vertical"
         style="@style/SudContentFrame">
 
-        <ImageView
-            android:id="@+id/brand_logo"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:src="@drawable/logo"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:gravity="center"
-            android:padding="@dimen/content_margin_left"/>
+        <com.airbnb.lottie.LottieAnimationView
+	    android:id="@+id/brand_logo_end"
+	    android:layout_width="match_parent"
+	    android:layout_height="0px"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+	    android:scaleType="fitCenter"
+        android:gravity="center"
+	    app:lottie_autoPlay="true"
+	    app:lottie_loop="true"
+	    app:lottie_rawRes="@raw/logo" />             
 
         <org.lineageos.setupwizard.NavigationLayout
             android:id="@+id/navigation_bar"

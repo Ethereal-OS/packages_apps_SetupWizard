@@ -32,6 +32,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
+
 import org.lineageos.setupwizard.util.SetupWizardUtils;
 
 public class FinishActivity extends BaseSetupWizardActivity {
@@ -40,32 +43,30 @@ public class FinishActivity extends BaseSetupWizardActivity {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    // "Why not just start this activity with an Intent extra?" you might ask. Been there.
-    // We need this to affect the theme, and even onCreate is not early enough for that,
-    // so "static volatile boolean" it is. Feel free to rework this if you dare.
     private static volatile boolean sIsFinishing;
 
     private View mRootView;
     private Resources.Theme mEdgeToEdgeWallpaperBackgroundTheme;
+
+    private LottieAnimationView lottieAnimationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.translucent_enter,
                 R.anim.translucent_exit);
+
         if (LOGV) {
             logActivityState("onCreate savedInstanceState=" + savedInstanceState);
         }
+
         setNextText(R.string.start);
 
-        // Edge-to-edge. Needed for the background view to fill the full screen.
+        // Edge-to-edge for full background coverage
         final Window window = getWindow();
         window.setDecorFitsSystemWindows(false);
-
-        // Make sure 3-button navigation bar is the same color as the rest of the screen.
         window.setNavigationBarContrastEnforced(false);
 
-        // Ensure the main layout (not including the background view) does not get obscured by bars.
         mRootView = findViewById(R.id.root);
         ViewCompat.setOnApplyWindowInsetsListener(mRootView, (view, windowInsets) -> {
             final View linearLayout = findViewById(R.id.linear_layout);
@@ -78,6 +79,16 @@ public class FinishActivity extends BaseSetupWizardActivity {
             linearLayout.setLayoutParams(params);
             return WindowInsetsCompat.CONSUMED;
         });
+
+        // Lottie background animation setup
+        lottieAnimationView = findViewById(R.id.lottieBackground);
+        lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+        lottieAnimationView.playAnimation();
+        
+        // Set up brand animation
+        LottieAnimationView animationView = findViewById(R.id.brand_logo_end);
+	animationView.setAnimation(R.raw.logo);
+	animationView.playAnimation();
 
         if (sIsFinishing) {
             startFinishSequence();
@@ -136,9 +147,8 @@ public class FinishActivity extends BaseSetupWizardActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         hideNextButton();
 
-        // Begin outro animation.
         if (mRootView.isAttachedToWindow()) {
-            mHandler.post(() -> animateOut());
+            mHandler.post(this::animateOut);
         } else {
             mRootView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
                 @Override
@@ -158,9 +168,10 @@ public class FinishActivity extends BaseSetupWizardActivity {
         final int cx = (mRootView.getLeft() + mRootView.getRight()) / 2;
         final int cy = (mRootView.getTop() + mRootView.getBottom()) / 2;
         final float fullRadius = (float) Math.hypot(cx, cy);
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(mRootView, cx, cy, fullRadius, 0f);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(mRootView, cx, cy, fullRadius, 0f);
         anim.setDuration(900);
+
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -170,6 +181,14 @@ public class FinishActivity extends BaseSetupWizardActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mRootView.setVisibility(View.INVISIBLE);
+
+                // ✨ Also fade out the Lottie animation
+                lottieAnimationView.animate()
+                        .alpha(0f)
+                        .setDuration(900)
+                        .withEndAction(() -> lottieAnimationView.setVisibility(View.INVISIBLE))
+                        .start();
+
                 mHandler.post(() -> {
                     if (LOGV) {
                         Log.v(TAG, "Animation ended");
@@ -178,6 +197,8 @@ public class FinishActivity extends BaseSetupWizardActivity {
                 });
             }
         });
+
         anim.start();
     }
 }
+
